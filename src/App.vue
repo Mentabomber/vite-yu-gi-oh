@@ -3,12 +3,14 @@ import { store } from './store.js';
 import axios from 'axios';
 import AppHeader from './components/AppHeader.vue';
 import AppMain from './components/AppMain.vue';
+import AppLoader from './components/AppLoader.vue';
 
 
 export default{
   components: {
     AppHeader,
-    AppMain
+    AppMain,
+    AppLoader
   },
   data(){
     return{
@@ -20,6 +22,7 @@ export default{
       axios.get(store.apiURL)
       .then((res) => {
         store.cardsList = res.data.data;
+        store.loading = false
         console.log(res.data.data);
       })
       .catch(err => {
@@ -34,7 +37,7 @@ export default{
 </script>
 
 <template>
-  <pre>{{ cardsList }}</pre>
+  <AppLoader v-if="store.loading"/>
   <AppHeader />
   <AppMain />
 </template>
