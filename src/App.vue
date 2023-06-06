@@ -1,16 +1,19 @@
 <script>
 import { store } from './store.js';
 import axios from 'axios';
+
 import AppHeader from './components/AppHeader.vue';
 import AppMain from './components/AppMain.vue';
 import AppLoader from './components/AppLoader.vue';
+import AppSearch from './components/AppSearch.vue';
 
 
 export default{
   components: {
     AppHeader,
     AppMain,
-    AppLoader
+    AppLoader,
+    AppSearch
   },
   data(){
     return{
@@ -18,28 +21,54 @@ export default{
     }
   },
   methods: {
-    getCharacters(){
-      axios.get(store.apiURL)
+    getCards(){
+
+      let myUrl = store.apiURL;
+      
+
+      if(store.searchText === ""){
+        myUrl += "?num=39&offset=0";
+        axios.get(myUrl)
       .then((res) => {
         store.cardsList = res.data.data;
-        store.loading = false
+        store.loading = false;
         console.log(res.data.data);
+        console.log(store.searchText);
       })
       .catch(err => {
         console.log(err);
       })
+      }
+      else{
+        myUrl += `?${store.apiArchetypeParameter}=${store.searchText}`;
+        console.log(myUrl);
+        
+          axios.get(myUrl)
+            .then((res) => {
+              store.cardsList = res.data.data;
+              store.loading = false;
+              console.log(res.data.data);
+              console.log(store.searchText);
+            })
+            .catch(err => {
+              console.log(err);
+            })
     }
   },
   created(){
-    this.getCharacters();
+    this.getCards();
   }
-}
+}}
 </script>
 
 <template>
   <AppLoader v-if="store.loading"/>
-  <AppHeader />
-  <AppMain />
+  <!-- <div v-else> -->
+    <AppHeader />
+    <AppSearch @search="getCards"/>
+    <AppMain />
+  <!-- </div> -->
+ 
 </template>
 
 <style lang="scss" >

@@ -14,7 +14,8 @@ export default{
 <div class="card">
     <img :src="details.card_images[0].image_url" alt="">
     <h4>{{ details.name }}</h4>
-    <h3>{{ details.archetype }}</h3>
+    <h3 v-if="details.archetype">{{ details.archetype }}</h3>
+    <h3 v-else>{{ details.race }}</h3>
 
 </div>
 </template>

@@ -26,7 +26,7 @@ export default{
         </select>
         <div id="card-container">
             <header>
-                <h3>Found 39 cards</h3>
+                <h3>Found {{ store.cardsList.length }} cards</h3>
             </header>
             <AppMainCard v-for="card in store.cardsList"
             :details="card" />
