@@ -3,12 +3,17 @@
 import { store } from '../store.js';
 
 import AppMainCard from './AppMainCard.vue';
+import AppSearch from './AppSearch.vue';
 
 
 export default{
     name: "AppMain",
     components: {
-        AppMainCard
+        AppMainCard,
+        AppSearch,
+    },
+    props: {
+        apiResolver: Function
     },
     data(){
     return{
@@ -21,9 +26,7 @@ export default{
 <template>
 <main>
     <div class="container">
-        <select name="cards" id="cards">
-            <option value="Alien">Alien</option>
-        </select>
+        <AppSearch @search="apiResolver"/>
         <div id="card-container">
             <header>
                 <h3>Found {{ store.cardsList.length }} cards</h3>

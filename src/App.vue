@@ -24,20 +24,20 @@ export default{
     getCards(){
 
       let myUrl = store.apiURL;
-      
+  
 
       if(store.searchText === ""){
         myUrl += "?num=39&offset=0";
         axios.get(myUrl)
-      .then((res) => {
-        store.cardsList = res.data.data;
-        store.loading = false;
-        console.log(res.data.data);
-        console.log(store.searchText);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+          .then((res) => {
+            store.cardsList = res.data.data;
+            store.loading = false;
+            console.log(res.data.data);
+            console.log(store.searchText);
+          })
+          .catch(err => {
+            console.log(err);
+          })
       }
       else{
         myUrl += `?${store.apiArchetypeParameter}=${store.searchText}`;
@@ -56,6 +56,7 @@ export default{
     }
   },
   created(){
+    console.log("son qua");
     this.getCards();
   }
 }}
@@ -65,8 +66,7 @@ export default{
   <AppLoader v-if="store.loading"/>
   <!-- <div v-else> -->
     <AppHeader />
-    <AppSearch @search="getCards"/>
-    <AppMain />
+    <AppMain :apiResolver="getCards"/>
   <!-- </div> -->
  
 </template>
